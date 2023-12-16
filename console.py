@@ -143,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
         elif bool(re.match("^[0-9]+$", value)):
             Value = int(value)
         else:
-            value = None
+            Value = None
         return Value
 
     def help_create(self):
