@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
             Value = str(value)[1:-1].replace("_", " ")
         elif "." in value:
             Value = float(value)
-        elif bool(re.match("^[0-9]+$", value)):
+        elif bool(re.match("^-?[0-9]+$", value)):
             Value = int(value)
         else:
             Value = None
