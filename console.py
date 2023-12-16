@@ -136,7 +136,8 @@ class HBNBCommand(cmd.Cmd):
 
     def CheckType(self, value):
         """method that check type of value [str, int, float]"""
-        if "'" in value or '"' in value:
+        if value[0] == '"' and value[len(value) - 1] == '"' and\
+                len(value) >= 2:
             Value = str(value)[1:-1].replace("_", " ")
         elif "." in value:
             Value = float(value)
