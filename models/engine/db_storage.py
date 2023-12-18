@@ -25,10 +25,7 @@ class DBStorage:
         self.__engine = create_engine(data_URL, pool_pre_ping=True)
         is_equal = (getenv("HBNB_ENV") == "test")
         if is_equal:
-            metadata = MetaData()
-            metadata.bind = self.__engine
-            metadata.reflect()
-            metadata.drop_all()
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Quary all classes or """
