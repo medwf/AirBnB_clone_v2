@@ -4,12 +4,13 @@ from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String
 
+TypeStorage = getenv('HBNB_TYPE_STORAGE')
+
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
-    typestorage = getenv('HBNB_TYPE_STORAGE')
-    if typestorage == 'db':
-        __tablename__ = "users"
+    __tablename__ = "users"
+    if TypeStorage == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
