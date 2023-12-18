@@ -1,1 +1,16 @@
-{"Place.776b669f-8098-4395-b5fb-3f2bf1e26433": {"id": "776b669f-8098-4395-b5fb-3f2bf1e26433", "created_at": "2023-12-16T19:14:12.928232", "updated_at": "2023-12-16T19:14:38.116349", "name": "Casa", "__class__": "Place"}}
+{
+    "Place.776b669f-8098-4395-b5fb-3f2bf1e26433": {
+        "id": "776b669f-8098-4395-b5fb-3f2bf1e26433",
+        "created_at": "2023-12-16T19:14:12.928232",
+        "updated_at": "2023-12-16T19:14:38.116349",
+        "name": "Casa",
+        "__class__": "Place"
+    },
+    "State.0bdad6b3-d14d-4338-9db7-3dc9b8bfb699": {
+        "id": "0bdad6b3-d14d-4338-9db7-3dc9b8bfb699",
+        "created_at": "2023-12-18T16:34:38.490810",
+        "updated_at": "2023-12-18T16:34:38.490908",
+        "name": "California",
+        "__class__": "State"
+    }
+}

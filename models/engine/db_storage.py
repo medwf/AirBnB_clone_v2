@@ -1,36 +1,67 @@
 #!/usr/bin/python3
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy import Session
-from base_model import Base
-import os
+from sqlalchemy.orm import sessionmaker, scoped_session
+from models.base_model import Base
+from models.city import City
+from models.state import State
+from os import getenv
+
 
 class DBStorage:
+    """ this for database storage"""
     __engine = None
     __session = None
+
     def __init__(self):
-        user = os.environ.get("HBNB_MYSQL_USER")
-        password = os.environ.get("HBNB_MYSQL_PWD")
-        host = os.environ.get("HBNB_MYSQL_HOST")
-        db_name = os.environ.get("HBNB_MYSQL_DB")
+        """ initialized insttance attribute"""
+        user = getenv("HBNB_MYSQL_USER")
+        password = getenv("HBNB_MYSQL_PWD")
+        host = getenv("HBNB_MYSQL_HOST")
+        db_name = getenv("HBNB_MYSQL_DB")
         data_URL = f"mysql+mysqldb://{user}:{password}@{host}:3306/{db_name}"
+
         self.__engine = create_engine(data_URL, pool_pre_ping=True)
-        is_equal = (os.environ.get("HBNB_ENV") == "test")
+        is_equal = (getenv("HBNB_ENV") == "test")
         if is_equal:
             metadata = MetaData()
             metadata.bind = self.__engine
             metadata.reflect()
             metadata.drop_all()
+
     def all(self, cls=None):
-        self.__session = Session()
-        result = None
-        my_dict = {}
-        inner_dict = {}
-        if cls == None:
-            result = self.__session.query(Base).all()
+        """Quary all classes or """
+        # classes = [User, State, City, Amenity, Place, Review]
+        classes = [State, City]
+        ALL = {}
+        if cls:
+            if cls in classes:
+                for obj in self.__session.query(cls).all():
+                    key = f"{obj.__class__.__name__}.{obj.id}"
+                    ALL[key] = obj
         else:
-            result = self.__session.query(cls).all()
-        for key in result:
-            attribute_names = [attr for attr in vars(key) if not callable(getattr(key, attr))]
-            key1 = f"{type(key).__name__}.{key.id}"
-            i = 0
-            my_dict[key1] = inner_dict[attribute_names[i]]
+            for CLS in classes:
+                for obj in self.__session.query(CLS).all():
+                    key = f"{obj.__class__.__name__}.{obj.id}"
+                    ALL[key] = obj
+        return ALL
+
+    def new(self, obj):
+        """add object"""
+        if obj:
+            self.__session.add(obj)
+
+    def save(self):
+        """commit all changes of the current database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete from the current database session obj"""
+        if obj:
+            self.__session.delele(obj)
+
+    def reload(self):
+        """create all tables in the database"""
+        Base.metadata.create_all(self.__engine)
+        Session = scoped_session(sessionmaker(
+            bind=self.__engine, expire_on_commit=False))
+        self.__session = Session()
