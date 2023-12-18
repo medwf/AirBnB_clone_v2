@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.sql.schema import ForeignKey
-from models.state import State
+from sqlalchemy.orm import relationship
 from os import getenv
 
 TypeStorage = getenv("HBNB_TYPE_STORAGE")
@@ -15,6 +15,7 @@ class City(BaseModel, Base):
     if TypeStorage == "db":
         name = Column(String(128), nullable=False)
         state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
+        places = relationship("Place", cascade="all,delete", backref="cities")
     else:
         name = ""
         state_id = ""
