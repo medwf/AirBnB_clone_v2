@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from re import U
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
@@ -8,6 +8,7 @@ from models.state import State
 from models.user import User
 from models.place import Place
 from models.review import Review
+from models.amenity import Amenity
 from os import getenv
 
 
@@ -31,8 +32,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Quary all classes or """
-        # classes = [User, State, City, Amenity, Place, Review]
-        classes = [State, City, User, Place, Review]
+        classes = [User, State, City, Amenity, Place, Review]
         ALL = {}
         if cls:
             if cls in classes:

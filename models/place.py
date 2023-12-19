@@ -1,12 +1,21 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Table
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 
 TypeStorage = getenv("HBNB_TYPE_STORAGE")
+
+place_amenity = Table("place_amenity",
+                      Base.metadata,
+                      Column("place_id", String(60),
+                             ForeignKey("places.id"), primary_key=True,
+                             nullable=False),
+                      Column("amenity_id", String(60),
+                             ForeignKey("amenities.id"), primary_key=True,
+                             nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -24,6 +33,8 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship('Review', backref="place", cascade="all,delete")
+        amenities = relationship('Amenity', secondary=place_amenity,
+                                 viewonly=False, back_populates="place_amenity")
     else:
         city_id = ""
         user_id = ""
@@ -36,7 +47,7 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
-    
+
     @property
     def reviews(self):
         """returns the list of Review instances
@@ -49,3 +60,22 @@ class Place(BaseModel, Base):
             if rev.place_id == self.id:
                 my_list.append(rev)
         return my_list
+
+    @property
+    def amenities(self):
+        """returns the list of Amenity instances"""
+        from models.__init__ import storage
+        from models.amenity import Amenity
+        ALL = []
+        Amenities = storage.all(Amenity)
+        for amenity in Amenities:
+            if amenity.id == self.amenity_ids:
+                ALL.append(amenity)
+        return ALL
+
+    @amenities.setter
+    def amenities(self, amenity):
+        """adding an Amenity.id to the attribute amenity_ids"""
+        from models.amenity import Amenity
+        if isinstance(amenity, Amenity):
+            self.amenity_ids.append(amenity.id)
