@@ -69,7 +69,7 @@ class Place(BaseModel, Base):
         ALL = []
         Amenities = storage.all(Amenity)
         for amenity in Amenities:
-            if amenity.id == self.amenity_ids:
+            if amenity.id in self.amenity_ids:
                 ALL.append(amenity)
         return ALL
 
