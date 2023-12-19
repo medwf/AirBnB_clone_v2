@@ -7,6 +7,7 @@ from models.city import City
 from models.state import State
 from models.user import User
 from models.place import Place
+from models.review import Review
 from os import getenv
 
 
@@ -31,7 +32,7 @@ class DBStorage:
     def all(self, cls=None):
         """Quary all classes or """
         # classes = [User, State, City, Amenity, Place, Review]
-        classes = [State, City, User, Place]
+        classes = [State, City, User, Place, Review]
         ALL = {}
         if cls:
             if cls in classes:
