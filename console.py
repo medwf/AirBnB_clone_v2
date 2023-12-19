@@ -127,9 +127,11 @@ class HBNBCommand(cmd.Cmd):
         for arg in Args[1:]:
             parameters = arg.split("=")
             if len(parameters) == 2:
+                # print(parameters)
                 key = parameters[0]
                 handle_value = self.CheckType(parameters[1])
                 if handle_value is not None and hasattr(new_instance, key):
+                    # print(f"{key}: {handle_value}")
                     setattr(new_instance, key, handle_value)
         print(new_instance.id)
         new_instance.save()
