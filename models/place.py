@@ -34,7 +34,7 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship('Review', backref="place", cascade="all,delete")
         amenities = relationship('Amenity', secondary=place_amenity,
-                                 viewonly=False, back_populates="place_amenity")
+                                 viewonly=False)
     else:
         city_id = ""
         user_id = ""
@@ -68,8 +68,8 @@ class Place(BaseModel, Base):
         from models.amenity import Amenity
         ALL = []
         Amenities = storage.all(Amenity)
-        for amenity in Amenities:
-            if amenity.id in self.amenity_ids:
+        for amenity in Amenities.value():
+            if amenity.place_id == self.id:
                 ALL.append(amenity)
         return ALL
 
