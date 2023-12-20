@@ -6,7 +6,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 from models import ValueEnv
 
-Base = declarative_base()
+if ValueEnv == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
