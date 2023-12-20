@@ -25,6 +25,9 @@ class BaseModel:
             args (won't be used): list of argumments.
             kwargs: pass in dictionary as argumment.
         """
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs:
             for attr, v in kwargs.items():
                 # fix error: type of created_at and updated_at most be datetime
@@ -33,10 +36,7 @@ class BaseModel:
                     setattr(self, attr, Nv)
                 elif attr != "__class__":
                     setattr(self, attr, v)
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+
             # change move storage.new(self) to save()
             # models.storage.new(self)
 
