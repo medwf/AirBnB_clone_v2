@@ -9,6 +9,7 @@ import os
 
 env.hosts = ['100.25.110.123', '54.208.156.46']
 
+
 @task
 def do_pack():
     """
@@ -26,6 +27,7 @@ def do_pack():
         return file_path
     except Exception:
         return None
+
 
 @task
 def do_deploy(archive_path):

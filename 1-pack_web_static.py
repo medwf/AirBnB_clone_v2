@@ -10,7 +10,7 @@ import os
 
 def do_pack():
     """
-    this function execute script that generates a .tgz 
+    this function execute script that generates a .tgz
         archive from the contents of the web_static folder
     """
     local("mkdir -p versions")
