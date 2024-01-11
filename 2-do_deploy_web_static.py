@@ -32,9 +32,7 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     """this function distributes an archive to your web servers"""
-    if not os.path.exists(archive_path):
-        return False
-    try:
+    if os.path.exists(archive_path):
         File = os.path.basename(archive_path)
         Dir = os.path.splitext(File)[0]
         FullPath = "/data/web_static/releases/{}".format(Dir)
@@ -49,5 +47,4 @@ def do_deploy(archive_path):
         run("ln -s {} /data/web_static/current".format(FullPath))
         print("New version deployed!")
         return True
-    except Exception:
-        return False
+    return False
