@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-script that generates a .tgz archive
+import modules
+this file is fabfile
 """
 from fabric.api import local
 from datetime import datetime
@@ -9,7 +10,8 @@ import os
 
 def do_pack():
     """
-    Fabric script that generates a .tgz archive
+    this function execute script that generates a .tgz 
+        archive from the contents of the web_static folder
     """
     local("mkdir -p versions")
     date = datetime.now().strftime("%Y%m%d%H%M%S")
