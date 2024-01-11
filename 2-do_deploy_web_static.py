@@ -7,7 +7,7 @@ from fabric.api import local, task, env, put, run
 from datetime import datetime
 import os
 
-env.hosts = ['100.25.110.123', '54.208.156.46']
+env.hosts = ['100.25.110.123']
 
 @task
 def do_pack():
@@ -33,14 +33,14 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
     try:
-        put(archive_path, "/tmp/")
         File = os.path.basename(archive_path)
-        Dir, ext = os.path.splitext(File)
+        Dir = os.path.splitext(File)[0]
         FullPath = "/data/web_static/releases/{}".format(Dir)
-        run("mkdir -p {}".format(FullPath))
+        put(archive_path, "/tmp/")
+        run("mkdir -p {}/".format(FullPath))
         run("tar -xzf /tmp/{} -C {}/".format(File, FullPath))
         run("rm /tmp/{}".format(File))
-        run("mv {}/web_static/* {}/".format(FullPath))
+        run("mv {0}/web_static/* {0}/".format(FullPath))
         run("rm -rf {}/web_static".format(FullPath))
         run("rm -rf /data/web_static/current")
         run("ln -s {} /data/web_static/current".format(FullPath))
