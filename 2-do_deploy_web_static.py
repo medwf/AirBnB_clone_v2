@@ -26,6 +26,7 @@ def do_pack():
         return file_path
     except Exception:
         return None
+
 @task
 def do_deploy(archive_path):
     """this function distributes an archive to your web servers"""
@@ -35,14 +36,14 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
         File = os.path.basename(archive_path)
         Dir, ext = os.path.splitext(File)
-        pt = "/data/web_static/releases/{}".format(Dir)
-        run("mkdir -p {}".format(pt))
-        run("tar -xzf /tmp/{} -C {}/".format(File, pt))
+        FullPath = "/data/web_static/releases/{}".format(Dir)
+        run("mkdir -p {}".format(FullPath))
+        run("tar -xzf /tmp/{} -C {}/".format(File, FullPath))
         run("rm /tmp/{}".format(File))
-        run("mv {}/web_static/* {}/".format(pt))
-        run("rm -rf {}/web_static".format(pt))
+        run("mv {}/web_static/* {}/".format(FullPath))
+        run("rm -rf {}/web_static".format(FullPath))
         run("rm -rf /data/web_static/current")
-        run("ln -s {} /data/web_static/current".format(pt))
+        run("ln -s {} /data/web_static/current".format(FullPath))
         print("New version deployed!")
         return True
     except Exception:
