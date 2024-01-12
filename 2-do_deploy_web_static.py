@@ -8,6 +8,7 @@ from datetime import datetime
 import os
 
 env.hosts = ['100.25.110.123', '54.208.156.46']
+env.user = 'ubuntu'
 
 
 @task
