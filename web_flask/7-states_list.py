@@ -5,6 +5,7 @@
         /states_list: ***
 """
 from models import storage
+from models.state import State
 from flask import Flask, render_template
 
 
@@ -16,7 +17,7 @@ def states_list():
     """Displays an HTML page with a list of all states
         at '/states_list' path
     """
-    states = storage.all("State")
+    states = storage.all(State)
     return render_template("7-states_list.html", states=states)
 
 
