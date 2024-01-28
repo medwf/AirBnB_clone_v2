@@ -18,7 +18,7 @@ def cities_by_states():
         at '/cities_by_states' path
     """
     states = storage.all(State)
-    return render_template("8-cities_by_states.html ", states=states)
+    return render_template("8-cities_by_states.html", states=states)
 
 
 @app.teardown_appcontext
